@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqey7ntqygs2p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lea3r"]
+albedo_color = Color(0.75, 0.75, 0.75, 1)
+metallic_specular = 1.0
+roughness = 0.57
+
+[sub_resource type="BoxMesh" id="BoxMesh_xbq3j"]
+material = SubResource("StandardMaterial3D_lea3r")
+size = Vector3(0.5, 0.5, 1)
+
+[node name="Axe" type="Node3D" groups=["axe"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xbq3j")

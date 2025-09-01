@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://66vtdvarkln"]
+
+[ext_resource type="Script" uid="uid://b5jvsdpy7b2k2" path="res://Skript/player.gd" id="1_ou8qv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0xd0"]
+albedo_color = Color(0.714639, 0.592631, 0.478901, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ou8qv"]
+material = SubResource("StandardMaterial3D_r0xd0")
+size = Vector3(4, 4, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pobmc"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ou8qv"]
+transparency = 1
+albedo_color = Color(0.282353, 0.909804, 0.294118, 0.192157)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pobmc"]
+material = SubResource("StandardMaterial3D_ou8qv")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ou8qv"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_ou8qv")
+
+[node name="TownHall" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ou8qv")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 12
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_pobmc")
+
+[node name="HighlightMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.75008)
+mesh = SubResource("BoxMesh_pobmc")
+
+[node name="Area3D" type="Area3D" parent="HighlightMesh"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HighlightMesh/Area3D"]
+shape = SubResource("BoxShape3D_ou8qv")
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="area_entered" from="HighlightMesh/Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="HighlightMesh/Area3D" to="." method="_on_area_3d_area_exited"]

@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfvroqa406thk"]
+
+[ext_resource type="Script" uid="uid://c6faebotbr8f5" path="res://Skript/lumberjack_hut.gd" id="1_jndsl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0kf50"]
+albedo_color = Color(0.3528, 0.56, 0.411507, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8iigg"]
+material = SubResource("StandardMaterial3D_0kf50")
+size = Vector3(3, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l7lhp"]
+size = Vector3(3, 3, 3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jndsl"]
+radius = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jndsl"]
+transparency = 1
+albedo_color = Color(0.221835, 0.69, 0.2139, 0.14902)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_opfxu"]
+material = SubResource("StandardMaterial3D_jndsl")
+top_radius = 10.0
+bottom_radius = 10.0
+
+[node name="Lumberjack hut" type="Node3D"]
+script = ExtResource("1_jndsl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8iigg")
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 12
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("BoxShape3D_l7lhp")
+
+[node name="HarvestingArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HarvestingArea"]
+shape = SubResource("CylinderShape3D_jndsl")
+debug_color = Color(0.76, 0.3952, 0.5776, 0.486275)
+
+[node name="HarvestingMesh" type="MeshInstance3D" parent="HarvestingArea"]
+mesh = SubResource("CylinderMesh_opfxu")
+
+[connection signal="input_event" from="HitBox" to="." method="_on_area_3d_input_event"]
+[connection signal="area_entered" from="HarvestingArea" to="." method="_on_harvesting_area_area_entered"]
+[connection signal="area_exited" from="HarvestingArea" to="." method="_on_harvesting_area_area_exited"]
